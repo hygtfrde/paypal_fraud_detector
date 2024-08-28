@@ -27,3 +27,31 @@
 - V27: Correlation = 0.018
 - V28: Correlation = 0.010
 
+# Time-based patterns 
+- Normalization
+- Binning
+
+# Amount
+- Normalization
+
+# Class Imbalance (Oversampling and Undersampling)
+- SMOTE
+- ADASYN
+- Ensemble methods ... ?
+
+# Alternative Mterics
+- Precision
+- Recall
+- F1-Score
+- ROC-AUC
+- Precision Recall AUC
+
+# Feature Engineering
+- T-SNE
+- UMAP
+- Outlier detection
+- Interaction times
+
+# Post-modling
+- SHAP
+- LIME

@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-# Load your dataset
+
 df = pd.read_csv('datasets/my_paypal_creditcard.csv')
 
 # Basic Info
