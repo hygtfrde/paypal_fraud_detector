@@ -13,13 +13,20 @@ data = pd.read_csv('datasets/my_paypal_creditcard.csv')
 X = data.drop(['Class'], axis=1)
 y = data['Class']
 
-corr_matrix = X.corr()
+# Top 10 Negative and Positive Correlations
+top_negative_corr = ['V17', 'V14', 'V12', 'V10', 'V16', 'V3', 'V7', 'V18', 'V1', 'V5']
+top_positive_corr = ['V11', 'V4', 'V2', 'V21', 'V19', 'V20', 'V23', 'Amount', 'V27', 'V28']
 
-# Visualize correlation matrix
-plt.figure(figsize=(20,16))
-sns.heatmap(corr_matrix, annot=True, cmap='coolwarm')
-plt.title('Pearson Correlation Matrix')
-plt.show()
+# Combine the lists
+top_corr_features = top_negative_corr + top_positive_corr
+
+# Filter X to keep only columns in the top correlation features
+X_filtered = X[top_corr_features]
+
+# Print the resulting filtered dataframe columns
+print("Columns in X after filtering:")
+print(X_filtered.columns)
+
 
 # Split Test and Train sets
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -35,7 +42,7 @@ model = LogisticRegression(
     random_state=42, 
     max_iter=300, 
     class_weight='balanced',
-    solver='saga',
+    solver='liblinear',
     verbose=1
 )
 model.fit(X_train_scaled, y_train)

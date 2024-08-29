@@ -1,9 +1,11 @@
-# Split dataset into `removed_dups` and `dups_remain`
+# V1:
+## Split dataset into `removed_dups` and `dups_remain`
     |
     |___> removed_dups
     |___> dups_remain 
 
-# Focus first on the top 10 corrs
+# V2:
+## Focus first on the top 10 corrs
 ### Top 10 Negative Correlations:
 - V17: Correlation = -0.326
 - V14: Correlation = -0.303
@@ -27,9 +29,13 @@
 - V27: Correlation = 0.018
 - V28: Correlation = 0.010
 
-# Time-based patterns 
-- Normalization
+# V3:
+## Time-based patterns 
+- Normalization 
+    -- ensure that normalization respects time-based dependencies (e.g., rolling windows)
 - Binning
+    -- different periods (e.g., morning, afternoon, evening) or bin 'Amount' into discrete ranges
+
 
 # Amount
 - Normalization
@@ -39,7 +45,7 @@
 - ADASYN
 - Ensemble methods ... ?
 
-# Alternative Mterics
+# Alternative Metrics
 - Precision
 - Recall
 - F1-Score
