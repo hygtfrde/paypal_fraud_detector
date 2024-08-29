@@ -4,12 +4,13 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.preprocessing import StandardScaler, LabelEncoder
+from sklearn.metrics import precision_recall_curve
 import seaborn as sns
 import matplotlib.pyplot as plt
 
 """
     - implements Time-based binning
-    - trains only on the top 10 positive and top 10 negative correlations for features
+    - trains on all feature columns
     - sets a very high threshold at 0.99 for a much lower flase postitive
 """
 
@@ -19,21 +20,7 @@ data = pd.read_csv('datasets/my_paypal_creditcard.csv')
 X = data.drop(['Class'], axis=1)
 y = data['Class']
 
-# Top 10 Negative and Positive Correlations
-top_negative_corr = ['V17', 'V14', 'V12', 'V10', 'V16', 'V3', 'V7', 'V18', 'V1', 'V5']
-top_positive_corr = ['V11', 'V4', 'V2', 'V21', 'V19', 'V20', 'V23', 'Amount', 'V27', 'V28']
-
-# Combine the lists
-top_corr_features = top_negative_corr + top_positive_corr
-
-# Filter X to keep only columns in the top correlation features
-X_filtered = X[top_corr_features]
-
-# Print the resulting filtered dataframe columns
-print("Columns in X after filtering:")
-print(X_filtered.columns)
-
-
+# --------------------------------------------
 # Binning Time Chunks
 time_bins = [0, 6*3600, 12*3600, 18*3600, 24*3600]  # Binning by time of day in seconds
 time_labels = ['Night', 'Morning', 'Afternoon', 'Evening']
@@ -50,6 +37,7 @@ X['Amount_Binned'] = data['Amount_Binned']
 # Label encode the 'Time_Binned' column to convert categorical values to numeric
 label_encoder = LabelEncoder()
 X['Time_Binned'] = label_encoder.fit_transform(X['Time_Binned'])
+# --------------------------------------------
 
 
 # Split Test and Train sets
@@ -72,15 +60,31 @@ model = LogisticRegression(
 model.fit(X_train_scaled, y_train)
 
 
-
-
 # Make predictions
 y_pred = model.predict(X_test_scaled)
 
+
+
+# --------------------------------------------
 # Adjust the decision threshold
 threshold = 0.99  # You can try different values here
 y_pred_proba = model.predict_proba(X_test_scaled)[:, 1]
 y_pred_threshold = (y_pred_proba >= threshold).astype(int)
+# --------------------------------------------
+
+
+
+# --------------------------------------------
+# Plot the precision-recall curve
+precision, recall, thresholds = precision_recall_curve(y_test, y_pred_proba)
+
+plt.plot(recall, precision, marker='.')
+plt.xlabel('Recall')
+plt.ylabel('Precision')
+plt.title('Precision-Recall Curve')
+plt.show()
+# --------------------------------------------
+
 
 print("\nClassification Report with adjusted threshold:")
 print(classification_report(y_test, y_pred_threshold))

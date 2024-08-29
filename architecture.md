@@ -31,14 +31,28 @@
 
 # V3:
 ## Time-based patterns 
-- Normalization 
+- Normalization (Basic)
     -- ensure that normalization respects time-based dependencies (e.g., rolling windows)
 - Binning
     -- different periods (e.g., morning, afternoon, evening) or bin 'Amount' into discrete ranges
+- Threshold limits
+    -- Use a very high (99%) threshold
+
+# V4:
+## Time-based patterns && advanced normalization
+- Normalization (Advanced)
+    -- advanced normalization techniques (e.g., min-max normalization, log transformations, or z-score normalization)
+    -- ensure that normalization respects time-based dependencies (e.g., rolling windows)
+- Binning
+    -- different periods (e.g., morning, afternoon, evening) or bin 'Amount' into discrete ranges
+- Threshold limits
+    -- Use a very high (99%) threshold and adjust it based on 'precision-recall'
+- Use a Different Metric (e.g., F1-Score or Precision-Recall Curve)
+    -- instead of focusing on accuracy, optimize for a balance between precision and recall using the F1-score
+    -- plot a precision-recall curve to find the optimal threshold for your model.
 
 
-# Amount
-- Normalization
+
 
 # Class Imbalance (Oversampling and Undersampling)
 - SMOTE

@@ -8,7 +8,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 """
-    - utilizes drop duplicates to compare both sets accuracy
+    - utilizes drop duplicates to compare accuracy of both sets
 """
 
 # ------------------------------
