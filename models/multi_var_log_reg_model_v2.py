@@ -8,6 +8,11 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 
+"""
+    - trains only on the top 10 positive and top 10 negative correlations for features
+"""
+
+
 data = pd.read_csv('datasets/my_paypal_creditcard.csv')
 
 X = data.drop(['Class'], axis=1)

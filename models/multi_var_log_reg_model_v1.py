@@ -7,6 +7,10 @@ from sklearn.preprocessing import StandardScaler
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+"""
+    - utilizes drop duplicates to compare both sets accuracy
+"""
+
 # ------------------------------
 
 DROP_DUPLICATES = True
