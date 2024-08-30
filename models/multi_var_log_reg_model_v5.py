@@ -8,6 +8,13 @@ from imblearn.over_sampling import SMOTE  # Added for SMOTE
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+"""
+    - V5 results in significantly improved model accuracy and precision
+    Confusion Matrix with optimal threshold:
+    [[56861     3]
+    [   20    78]]
+"""
+
 # Load dataset
 data = pd.read_csv('datasets/my_paypal_creditcard.csv')
 
