@@ -2,13 +2,10 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import classification_report, confusion_matrix
-from sklearn.preprocessing import StandardScaler, LabelEncoder
-from sklearn.metrics import precision_recall_curve
+from sklearn.metrics import classification_report, confusion_matrix, precision_recall_curve, f1_score
+from sklearn.preprocessing import StandardScaler, MinMaxScaler, LabelEncoder
 import seaborn as sns
 import matplotlib.pyplot as plt
-
-
 
 data = pd.read_csv('datasets/my_paypal_creditcard.csv')
 
@@ -34,12 +31,11 @@ label_encoder = LabelEncoder()
 X['Time_Binned'] = label_encoder.fit_transform(X['Time_Binned'])
 # --------------------------------------------
 
-
 # Split Test and Train sets
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Scale X sets
-scaler = StandardScaler()
+# Scale X sets using MinMaxScaler for advanced normalization
+scaler = MinMaxScaler()  # Changed from StandardScaler to MinMaxScaler
 X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
 
@@ -54,20 +50,8 @@ model = LogisticRegression(
 )
 model.fit(X_train_scaled, y_train)
 
-
 # Make predictions
-y_pred = model.predict(X_test_scaled)
-
-
-
-# --------------------------------------------
-# Adjust the decision threshold
-threshold = 0.99  # You can try different values here
 y_pred_proba = model.predict_proba(X_test_scaled)[:, 1]
-y_pred_threshold = (y_pred_proba >= threshold).astype(int)
-# --------------------------------------------
-
-
 
 # --------------------------------------------
 # Plot the precision-recall curve
@@ -78,13 +62,24 @@ plt.xlabel('Recall')
 plt.ylabel('Precision')
 plt.title('Precision-Recall Curve')
 plt.show()
+
+# Find the optimal threshold based on precision-recall curve
+optimal_idx = np.argmax(precision - recall)
+
+# Ensure the optimal index does not exceed the size of the thresholds array
+if optimal_idx >= len(thresholds):
+    optimal_idx = len(thresholds) - 1
+
+optimal_threshold = thresholds[optimal_idx]
+
+# Make predictions with the optimal threshold
+y_pred_threshold = (y_pred_proba >= optimal_threshold).astype(int)
 # --------------------------------------------
 
-
-print("\nClassification Report with adjusted threshold:")
+print("\nClassification Report with optimal threshold:")
 print(classification_report(y_test, y_pred_threshold))
 
-print("\nConfusion Matrix with adjusted threshold:")
+print("\nConfusion Matrix with optimal threshold:")
 print(confusion_matrix(y_test, y_pred_threshold))
 
 # Print feature importance
@@ -92,3 +87,6 @@ feature_importance = pd.DataFrame({'feature': X.columns, 'importance': abs(model
 feature_importance = feature_importance.sort_values('importance', ascending=False)
 print("\nFeature Importance:")
 print(feature_importance)
+
+# Print optimal threshold
+print(f"\nOptimal Threshold: {optimal_threshold}")
