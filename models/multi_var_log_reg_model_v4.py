@@ -8,11 +8,6 @@ from sklearn.metrics import precision_recall_curve
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-"""
-    - implements Time-based binning
-    - trains on all feature columns
-    - sets a very high threshold at 0.99 for a much lower flase postitive
-"""
 
 
 data = pd.read_csv('datasets/my_paypal_creditcard.csv')
