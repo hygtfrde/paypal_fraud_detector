@@ -8,15 +8,6 @@ from imblearn.over_sampling import SMOTE  # Added for SMOTE
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-"""
-without binning:
- [[56856     8]
- [   18    80]]
- 
-with binning:
- [[56861     3]
- [   20    78]]
-"""
 
 # Load dataset
 data = pd.read_csv('datasets/my_paypal_creditcard.csv')
@@ -41,9 +32,9 @@ X_test_scaled = scaler.transform(X_test)
 
 # --------------------------------------------
 # Create individual models
-rf_model = RandomForestClassifier(random_state=42, n_estimators=100, class_weight='balanced', verbose=1)
-adaboost_model = AdaBoostClassifier(random_state=42, n_estimators=100)
-gb_model = GradientBoostingClassifier(random_state=42, n_estimators=100)
+rf_model = RandomForestClassifier(random_state=42, n_estimators=300, class_weight='balanced', verbose=1)
+adaboost_model = AdaBoostClassifier(random_state=42, n_estimators=300)
+gb_model = GradientBoostingClassifier(random_state=42, n_estimators=300)
 
 # Combine them using Voting Classifier
 ensemble_model = VotingClassifier(
@@ -88,7 +79,7 @@ optimal_threshold = thresholds[optimal_idx]
 # Make predictions with the optimal threshold
 # y_pred_threshold = (y_pred_proba >= optimal_threshold).astype(int)
 
-threshold = 0.69
+threshold = 0.60
 
 # Make predictions with the hardcoded threshold
 y_pred_threshold = (y_pred_proba >= threshold).astype(int)

@@ -1,8 +1,8 @@
 # V1:
 ## Split dataset into `removed_dups` and `dups_remain`
-    |
-    |___> removed_dups
-    |___> dups_remain 
+- 
+  - `removed_dups`
+  - `dups_remain`
 
 # V2:
 ## Focus first on the top 10 correlations
@@ -59,7 +59,7 @@
     -- plot a precision-recall curve to find the optimal threshold for your model.
 
 
-# V5 ?
+# V5
 ## Class Imbalance (Oversampling and Undersampling)
 - SMOTE
 ```
@@ -108,6 +108,56 @@ print(classification_report(y_test, y_pred_rf))
 print("\nConfusion Matrix for Random Forest:")
 print(confusion_matrix(y_test, y_pred_rf))
 ```
+
+## Voting Classifier
+- Combining Logistic Regression and other models into a single Ensemble Method:
+```
+log_reg = LogisticRegression(random_state=42)
+rf_model = RandomForestClassifier(random_state=42, n_estimators=100)
+gb_model = GradientBoostingClassifier(random_state=42)
+
+# Combine them using VotingClassifier
+ensemble_model = VotingClassifier(
+    estimators=[
+        ('log_reg', log_reg),
+        ('rf', rf_model),
+        ('gb', gb_model)
+    ],
+    voting='soft'  # Use 'soft' for probability voting
+)
+
+# Fit the ensemble model
+ensemble_model.fit(X_train_scaled, y_train)
+
+# Make predictions
+y_pred = ensemble_model.predict(X_test_scaled)
+print(classification_report(y_test, y_pred))
+```
+
+## Stacking
+```
+estimators = [
+    ('rf', RandomForestClassifier(random_state=42, n_estimators=100)),
+    ('gb', GradientBoostingClassifier(random_state=42))
+]
+
+# Stacking model with logistic regression as meta-learner
+stacking_model = StackingClassifier(
+    estimators=estimators,
+    final_estimator=LogisticRegression(random_state=42)
+)
+
+# Fit the model
+stacking_model.fit(X_train_scaled, y_train)
+
+# Make predictions
+y_pred = stacking_model.predict(X_test_scaled)
+print(classification_report(y_test, y_pred))
+```
+
+## Blending ......
+
+# V6 ?
 
 # Alternative Metrics
 - Precision
