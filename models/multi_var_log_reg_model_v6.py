@@ -4,7 +4,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier, GradientBoostingClassifier, VotingClassifier
 from sklearn.metrics import classification_report, confusion_matrix, precision_recall_curve, f1_score
 from sklearn.preprocessing import MinMaxScaler, LabelEncoder
-from imblearn.over_sampling import SMOTE  # Added for SMOTE
+from imblearn.over_sampling import SMOTE, ADASYN  # Added for SMOTE
 import seaborn as sns
 import matplotlib.pyplot as plt
 
@@ -19,13 +19,17 @@ y = data['Class']
 # Split Test and Train sets
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Apply SMOTE to the training set to handle class imbalance
+# First, apply SMOTE to the training set
 smote = SMOTE(random_state=42)
-X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
+X_train_smote, y_train_smote = smote.fit_resample(X_train, y_train)
+
+# Then, apply ADASYN to the SMOTE-resampled data
+adasyn = ADASYN(random_state=42)
+X_train_combined, y_train_combined = adasyn.fit_resample(X_train_smote, y_train_smote)
 
 # Scale X sets using MinMaxScaler for advanced normalization
 scaler = MinMaxScaler()  # Changed from StandardScaler to MinMaxScaler
-X_train_scaled = scaler.fit_transform(X_train_resampled)
+X_train_scaled = scaler.fit_transform(X_train_combined)
 X_test_scaled = scaler.transform(X_test)
 
 
@@ -47,7 +51,7 @@ ensemble_model = VotingClassifier(
 )
 
 # Fit the ensemble model
-ensemble_model.fit(X_train_scaled, y_train_resampled)
+ensemble_model.fit(X_train_scaled, y_train_combined)
 
 # Make predictions
 y_pred_proba = ensemble_model.predict_proba(X_test_scaled)[:, 1]
