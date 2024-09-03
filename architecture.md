@@ -62,51 +62,17 @@
 # V5
 ## Class Imbalance (Oversampling and Undersampling)
 - SMOTE
-```
-from imblearn.over_sampling import SMOTE
-
-# Apply SMOTE to the training data
-smote = SMOTE(random_state=42)
-X_train_sm, y_train_sm = smote.fit_resample(X_train_scaled, y_train)
-
-# Train the model with the oversampled data
-model_smote = LogisticRegression(
-    random_state=42, 
-    max_iter=300, 
-    class_weight='balanced',
-    solver='liblinear',
-    verbose=1
-)
-model_smote.fit(X_train_sm, y_train_sm)
-
-# Evaluate the model again
-y_pred_smote = model_smote.predict(X_test_scaled)
-print("\nClassification Report with SMOTE:")
-print(classification_report(y_test, y_pred_smote))
-
-print("\nConfusion Matrix with SMOTE:")
-print(confusion_matrix(y_test, y_pred_smote))
-```
-
 - ADASYN
 - Ensemble methods
 
 ```
-from sklearn.ensemble import RandomForestClassifier
+# First, apply SMOTE to the training set
+smote = SMOTE(random_state=42)
+X_train_smote, y_train_smote = smote.fit_resample(X_train, y_train)
 
-# Train a random forest classifier
-rf_model = RandomForestClassifier(random_state=42, class_weight='balanced')
-rf_model.fit(X_train_scaled, y_train)
-
-# Make predictions
-y_pred_rf = rf_model.predict(X_test_scaled)
-
-# Evaluate the model
-print("\nClassification Report for Random Forest:")
-print(classification_report(y_test, y_pred_rf))
-
-print("\nConfusion Matrix for Random Forest:")
-print(confusion_matrix(y_test, y_pred_rf))
+# Then, apply ADASYN to the SMOTE-resampled data
+adasyn = ADASYN(random_state=42)
+X_train_combined, y_train_combined = adasyn.fit_resample(X_train_smote, y_train_smote)
 ```
 
 ## Voting Classifier
@@ -125,13 +91,6 @@ ensemble_model = VotingClassifier(
     ],
     voting='soft'  # Use 'soft' for probability voting
 )
-
-# Fit the ensemble model
-ensemble_model.fit(X_train_scaled, y_train)
-
-# Make predictions
-y_pred = ensemble_model.predict(X_test_scaled)
-print(classification_report(y_test, y_pred))
 ```
 
 ## Stacking

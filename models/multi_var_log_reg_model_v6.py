@@ -4,7 +4,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier, GradientBoostingClassifier, VotingClassifier
 from sklearn.metrics import classification_report, confusion_matrix, precision_recall_curve, f1_score
 from sklearn.preprocessing import MinMaxScaler, LabelEncoder
-from imblearn.over_sampling import SMOTE, ADASYN  # Added for SMOTE
+from imblearn.over_sampling import SMOTE, ADASYN
 import seaborn as sns
 import matplotlib.pyplot as plt
 
