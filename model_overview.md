@@ -5,6 +5,67 @@ This model is designed to detect fraudulent transactions using a credit card dat
 
 ## Workflow
 
+### **Stacking**
+
+Stacking is an advanced ensemble learning technique that aims to improve the predictive performance of machine learning models by combining multiple base models.
+
+1. **Train Base Models:** 
+   - Multiple models (called level-0 models) such as RandomForest, GradientBoosting, Logistic Regression, etc., are trained independently on the training dataset.
+   
+2. **Generate Predictions:** 
+   - Each base model generates predictions on the validation set (or test set).
+   - These predictions are then used as input features for a new model (called the level-1 model or meta-model).
+   
+3. **Train Meta-Model:** 
+   - The meta-model learns from the predictions of the base models. The goal is to correct the weaknesses of the base models and produce a final, improved prediction.
+   - Commonly, simple models like Logistic Regression are used as meta-models, though complex models can also be used.
+   
+4. **Final Predictions:**
+   - The final prediction is made using the meta-model based on the output of the base models.
+
+Stacking is powerful because it leverages the diversity of multiple models and aims to combine their strengths for better overall accuracy.
+
+---
+
+## Techniques that were used in V7 and caused very long training times
+
+### **Blending**
+
+Blending is another ensemble technique, somewhat similar to stacking but with a few differences:
+
+1. **Split the Data:** 
+   - The training data is split into two sets, a training subset and a holdout subset.
+   
+2. **Train Base Models:** 
+   - The base models (e.g., RandomForest, AdaBoost, etc.) are trained on the training subset.
+   
+3. **Generate Predictions:** 
+   - Each base model makes predictions on the holdout subset, and these predictions are used to form a new dataset.
+   
+4. **Train Meta-Model:** 
+   - A meta-model (e.g., Logistic Regression or any other simple model) is trained on this holdout set to learn from the base models' predictions.
+   
+5. **Final Predictions:**
+   - The final predictions are made by combining the predictions from the base models and the meta-model.
+
+Blending is generally easier to implement than stacking because it avoids using cross-validation on the training data. However, it can be less efficient than stacking due to limited training data for the meta-model.
+
+---
+
+### **Key Differences**
+
+- **Stacking** usually involves cross-validation for generating meta-model input features, making it more robust but computationally expensive.
+- **Blending** uses a simple split of the dataset, making it quicker to implement but possibly less accurate compared to stacking due to the smaller training set for the meta-model.
+
+
+### 0. V5 Results
+```
+    - V5 results in significantly improved model accuracy and precision
+    Confusion Matrix with optimal threshold:
+    [[56861     3]
+    [   5    83]]
+```
+
 ### 1. **Data Preparation**
    - **Dataset**: The model uses a credit card transaction dataset where the target variable is 'Class'. 
      - `X`: All features except the 'Class' column.

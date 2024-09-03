@@ -21,12 +21,15 @@ import time
 import threading
 
 
+# --------------------------------------------
+# Helper Functions
 def close_plot_after_delay(fig, delay):
     def close():
         plt.close(fig)
     
     timer = threading.Timer(delay, close)
     timer.start()
+# --------------------------------------------
 
 
 # --------------------------------------------
@@ -66,7 +69,7 @@ gb_model = GradientBoostingClassifier(random_state=42, n_estimators=300, verbose
 
 # --------------------------------------------
 # Timing and verbose output for training voting model
-start_time = time.time()  # Start timing the model training
+start_time = time.time()
 
 # Create Voting Classifier with RandomForest, AdaBoost, and GradientBoosting
 voting_model = VotingClassifier(
