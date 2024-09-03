@@ -7,7 +7,6 @@ from sklearn.ensemble import (
     GradientBoostingClassifier, 
     VotingClassifier
 )
-from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import (
     classification_report, 
     confusion_matrix, 
@@ -28,15 +27,7 @@ def close_plot_after_delay(fig, delay):
     
     timer = threading.Timer(delay, close)
     timer.start()
-    
-    
 
-"""
-Estimated Model Training Time: 30 minutes on a 16GB MacBook
-Confusion Matrix for Voting Model:
-[[56851    13]
- [   14    84]]
-"""
 
 # --------------------------------------------
 data = pd.read_csv('datasets/my_paypal_creditcard.csv')
@@ -46,6 +37,7 @@ y = data['Class']
 # --------------------------------------------
 
 
+# --------------------------------------------
 # Split Test and Train sets
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
@@ -61,6 +53,7 @@ X_train_combined, y_train_combined = adasyn.fit_resample(X_train_smote, y_train_
 scaler = MinMaxScaler()
 X_train_scaled = scaler.fit_transform(X_train_combined)
 X_test_scaled = scaler.transform(X_test)
+# --------------------------------------------
 
 
 # --------------------------------------------
@@ -102,6 +95,10 @@ y_pred_combined_proba = voting_model.predict_proba(X_test_scaled)[:, 1]
 # Calculate and print AUPRC
 auprc_voting = average_precision_score(y_test, y_pred_combined_proba)
 print(f"AUPRC for Voting Model: {auprc_voting:.4f}")
+
+# Save AUPRC for reporting or model comparison
+with open('model_performance.txt', 'a') as f:
+    f.write(f"AUPRC for Voting Model: {auprc_voting:.4f}\n")
 # --------------------------------------------
 
 
@@ -127,12 +124,16 @@ plt.show()
 optimal_idx = np.argmax(precision - recall)
 optimal_threshold = thresholds[optimal_idx] if optimal_idx < len(thresholds) else thresholds[-1]
 print(f"\nOptimal Threshold: {optimal_threshold}")
+
+# Save optimal threshold for reporting or model comparison
+with open('model_performance.txt', 'a') as f:
+    f.write(f"Optimal Threshold: {optimal_threshold}\n")
 # --------------------------------------------
 
 
 # --------------------------------------------
 # Make predictions with the optimal threshold
-threshold = 0.84
+threshold = 0.65
 y_pred_combined_threshold = (y_pred_combined_proba >= threshold).astype(int)
 
 print("\nClassification Report for Voting Model:")
