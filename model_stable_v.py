@@ -17,8 +17,12 @@ from sklearn.preprocessing import MinMaxScaler
 from imblearn.over_sampling import SMOTE, ADASYN
 import seaborn as sns
 import matplotlib.pyplot as plt
+import shap
+from lime.lime_tabular import LimeTabularExplainer
+
 import time
 import threading
+import pickle
 
 
 # --------------------------------------------
@@ -33,7 +37,7 @@ def close_plot_after_delay(fig, delay):
 
 
 # --------------------------------------------
-data = pd.read_csv('my_paypal_creditcard.csv')
+data = pd.read_csv('datasets/my_paypal_creditcard.csv')
 
 X = data.drop(['Class'], axis=1)
 y = data['Class']
@@ -164,4 +168,11 @@ try:
 
 except AttributeError:
     print("Some models do not support feature importances, skipping feature importance extraction.")
+# --------------------------------------------
+
+
+# --------------------------------------------
+# Pickle Dump
+with open('voting_model.pkl', 'wb') as model_file:
+    pickle.dump(voting_model, model_file)
 # --------------------------------------------

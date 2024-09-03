@@ -3,3 +3,6 @@ notes/*
 
 datasets
 datasets/*
+
+# pickle models
+voting_model.pkl
