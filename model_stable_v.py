@@ -11,7 +11,7 @@ from sklearn.metrics import (
     classification_report, 
     confusion_matrix, 
     precision_recall_curve,
-    average_precision_score  # Import average_precision_score for AUPRC
+    average_precision_score
 )
 from sklearn.preprocessing import MinMaxScaler
 from imblearn.over_sampling import SMOTE, ADASYN
