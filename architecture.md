@@ -59,7 +59,7 @@
     -- plot a precision-recall curve to find the optimal threshold for your model.
 
 
-# V5
+# V5+
 ## Class Imbalance (Oversampling and Undersampling)
 - SMOTE
 - ADASYN
@@ -114,9 +114,11 @@ y_pred = stacking_model.predict(X_test_scaled)
 print(classification_report(y_test, y_pred))
 ```
 
-## Blending ......
+## Blending (included in V7 but removed to due performance issues)
+- Stacking and blended resulted in significantly longer training times, so I will not be using blending.
 
-# V6 ?
+
+
 
 # Alternative Metrics
 - Precision
@@ -134,3 +136,7 @@ print(classification_report(y_test, y_pred))
 # Post-modling
 - SHAP
 - LIME
+
+# Pickle 
+- Dumps  
+- Loader
