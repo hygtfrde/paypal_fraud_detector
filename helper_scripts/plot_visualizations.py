@@ -9,11 +9,13 @@ if not os.path.exists('visualizations'):
     os.makedirs('visualizations')
 
 # Plot 1: Distribution of the 'Class' column (fraud vs non-fraud)
-plt.figure(figsize=(6, 4))
+plt.figure(figsize=(8, 4))
+plt.rcParams.update({'font.size': 12})
 sns.countplot(x='Class', hue='Class', data=data, palette='viridis', legend=False)
 plt.title('Distribution of Class (Fraud vs Non-Fraud)')
 plt.xlabel('Class')
 plt.ylabel('Count')
+plt.tight_layout()
 plt.savefig('visualizations/class_distribution.png')
 plt.close()
 
