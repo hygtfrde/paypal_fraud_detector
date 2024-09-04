@@ -13,18 +13,37 @@ Finally, the model’s predictions are assessed with classification reports and 
 
 
 ## Installation
-Install the dependencies with Pip:
+Configure and start a Virtual Environment for added security, package management, module isolation, and overall better experience. For Conda, 
+```
+conda create --name myenv python=3.9
+conda activate myenv
+# when finished stop with 
+conda deactivate
+```
+Alternatively, use the Standard Python Venv module,
+```
+python3 -m venv myenv
+source myenv/bin/activate
+# on Windows, activate with: `myenv\Scripts\activate`
+# when finished stop with 
+deactivate
+```
+Then inside of your env, securely install the required packages with Pip:
 ```
 pip install -r requirements.txt
 ```
 
 ## Usage
-Open the Jupyter Notebook and run the cells. 
+Open the Jupyter Notebook inside of the `notebook` dir, and run the cells. 
 Or to run the Python code directly run this command:
 ```
-python models/multi_var_log_reg_model_v8.py
+python model_stable_v.py
 ```
 You can replace the Version number (v1, v2, etc.) to test different types of the model.
+```
+python older_models/multi_var_log_reg_model_v8.py
+```
+Version #7 of the older models uses stacking and blending approaches. I anticipated better accuracy and precision, however the results were very close and training times were much longer (about 7 hours). The remaining models have modest training times (around 37 minutes on a MacBook Pro with 16 GB RAM).
 
 ### The Core Team
 
