@@ -37,7 +37,7 @@ plt.savefig('visualizations/amount_distribution.png')
 plt.close()
 
 # Plot 4: Distribution of 'Time' column
-plt.figure(figsize=(6, 4))
+plt.figure(figsize=(12, 10))
 sns.histplot(data['Time'], kde=True, bins=40, color='green')
 plt.title('Transaction Time Distribution')
 plt.xlabel('Time')
