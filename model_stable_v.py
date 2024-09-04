@@ -137,11 +137,11 @@ with open('model_performance.txt', 'a') as f:
 
 # --------------------------------------------
 # Make predictions with hard-coded threshold
-# threshold = 0.65
-# y_pred_combined_threshold = (y_pred_combined_proba >= threshold).astype(int)
+threshold = 0.65
+y_pred_combined_threshold = (y_pred_combined_proba >= threshold).astype(int)
 
 # Make predictions with the optimal threshold
-y_pred_combined_threshold = (y_pred_combined_proba >= optimal_threshold).astype(int)
+# y_pred_combined_threshold = (y_pred_combined_proba >= optimal_threshold).astype(int)
 
 print("\nClassification Report for Voting Model:")
 print(classification_report(y_test, y_pred_combined_threshold))
